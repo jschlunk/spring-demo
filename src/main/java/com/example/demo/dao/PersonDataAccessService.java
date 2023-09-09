@@ -26,7 +26,9 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public int insertPerson(UUID id, Person person) {
-        return 0;
+        final String sql = "INSERT INTO person(id, name) VALUES(?, ?);";
+        int rowsAffected = jdbcTemplate.update(sql, id, person.getName());
+        return rowsAffected;
 
     }
 
@@ -56,14 +58,16 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public int deletePersonById(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePersonById'");
+        final String sql = "DELETE FROM person WHERE id=?";
+        int rowsAffected = jdbcTemplate.update(sql, id);
+        return rowsAffected;
     }
 
     @Override
-    public int updatePersonById(UUID id, Person person) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePersonById'");
+    public int updatePersonById(UUID id, Person update) {
+        final String sql = "UPDATE person SET name=? WHERE id=?";
+        int rowsAffected = jdbcTemplate.update(sql, update.getName(), id);
+        return rowsAffected;
     }
 
 }
